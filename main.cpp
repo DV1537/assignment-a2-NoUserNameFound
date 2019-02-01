@@ -4,7 +4,7 @@
 #include"Polygon.h"
 using namespace std;
 
-int main()
+int main(int argc, const char * argv[])
 {
 	int x;
 	int size = 2;
@@ -13,7 +13,7 @@ int main()
 	Shape* shapes;
 
 	ifstream inFile;
-	inFile.open("data.txt");
+	inFile.open(argv[1]);
 
 	if (!inFile)
 	{
