@@ -1,19 +1,19 @@
-#include<iostream>
-#include <fstream>
-#include<string>
-
+#include"Point.h"
+#include"Line.h"
+#include"Triangle.h"
+#include"Polygon.h"
 using namespace std;
 
-int main(int argc, const char * argv[])
+int main()
 {
 	int x;
-	int sum = 0;
 	int size = 2;
 	int number = 0;
-	int* numbers = new int[size];
+	float* numbers = new float[size];
+	Shape* shapes;
 
 	ifstream inFile;
-	inFile.open(argv[1]);
+	inFile.open("data.txt");
 
 	if (!inFile)
 	{
@@ -26,44 +26,61 @@ int main(int argc, const char * argv[])
 		{
 			if (number<size)
 			{
-				sum += x;
+			
 				numbers[number] = x;
 				number++;
 			}
 			else
 			{
-				int* temp = new int[size];
+				float* temp = new float[size];
 				for (int i = 0; i < size; i++)
 				{
 					temp[i] = numbers[i];
 				}
 				delete[] numbers;
-				numbers = new int[++size];
+				size++;
+				numbers = new float[size];
 				for (int i = 0; i < size - 1; i++)
 				{
 					numbers[i] = temp[i];
 				}
 				delete[] temp;
 
-				sum += x;
-				numbers[number++] = x;
+				
+				numbers[number] = x;
+				number++;
 			}
 			cout << to_string(x) << " ";
 		}
-		int avarage = sum / size;
-		cout << "          Output: ";
-		for (int i = 0; i < size; i++)
+
+
+		if (number == 2)
 		{
-			if (numbers[i] > avarage)
-			{
-				cout << to_string(numbers[i]) << " ";
-			}
-
+			
+			shapes = new Point(numbers[0], numbers[1]);
 		}
-		cout << endl;
-	}
+		else if (number == 4)
+		{
+			
+			shapes = new Line(numbers[0], numbers[1], numbers[2], numbers[3]);
+		}
+		else if (number == 6)
+		{
+			shapes = new Triangle(numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5]);
+		}
+		else
+		{
+			shapes = new Polygon(numbers, number);
+		}
+	
+		cout << "        output:" << shapes->area() << endl;
+		
+		delete shapes;
 
-	system("pause");
+
+	}
 	delete[] numbers;
+	
+	system("pause");
 	return 0;
 }
